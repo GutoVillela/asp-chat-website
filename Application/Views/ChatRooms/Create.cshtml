@@ -1,0 +1,45 @@
+﻿@using Domain.Entities
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@model ChatRoomViewModel
+@inject UserManager<User> UserManager
+
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <div class="card">
+            <div class="card-header">
+                Add new Chat Room
+            </div>
+            <div class="card-body row">
+                <div class="col-md-12">
+                    <form asp-action="Create" method="post" class="row">
+                        @{
+                            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+                        }
+                        <input type="hidden" asp-for="UserId" class="form-control" value="@userId" />
+                        <div class="col-12 mb-3">
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="addon-wrapping">Name</span>
+                                <div class="form-floating w-100">
+                                    <input asp-for="Name" class="form-control" placeholder="Chat Room name" />
+                                    <label asp-for="Name"></label>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" value="Add" class="btn btn-primary" />
+                            <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -6,6 +6,6 @@ namespace Shared.Commands
     {
         bool Success { get; }
         string Message { get; }
-        ICollection<Error> Errors { get; }
+        Error Error { get; }
     }
 }
