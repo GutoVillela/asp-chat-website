@@ -1,7 +1,9 @@
-﻿namespace DomainCore.MQ
+﻿using DomainCore.ValueObjects;
+
+namespace DomainCore.MQ
 {
     public interface IConsumer
     {
-        void ConsumeMessage();
+        void ConsumeMessage(IChannelMQ channelToConsume, Action<IMessageMQ> callBack);
     }
 }

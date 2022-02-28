@@ -1,6 +1,10 @@
-﻿using Application.Infrastructure;
+﻿using Application.Hubs;
+using Application.Infrastructure;
 using Application.Models;
 using Application.Services.Interfaces;
+using Domain.ValueObjects;
+using DomainCore.MQ;
+using DomainCore.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -13,11 +17,15 @@ namespace Application.Controllers
     {
         private readonly IChatRoomApplicationService _chatRoomService;
         private readonly IMessageApplicationService _messageService;
+        private readonly IConsumer _consumer;
+        private readonly MessageHub _messageHub;
 
-        public HomeController(IChatRoomApplicationService chatRoomService, IMessageApplicationService messageService)
+        public HomeController(IChatRoomApplicationService chatRoomService, IMessageApplicationService messageService, IConsumer consumer, MessageHub messageHub)
         {
             _chatRoomService = chatRoomService;
             _messageService = messageService;
+            _consumer = consumer;
+            _messageHub = messageHub;
         }
 
         [HttpGet]
@@ -35,6 +43,7 @@ namespace Application.Controllers
 
             HomeViewModel model = new();
             model.SelectedChat = id;
+            _consumer.ConsumeMessage(new ChannelMQ(chatId: id.Value), NotifyClientOfMQMessage);
             return RedirectToAction(nameof(Index), model);
         }
 
@@ -61,7 +70,7 @@ namespace Application.Controllers
 
         private async Task<IEnumerable<ChatRoomViewModel>> LoadChatRooms()
         {
-            var userId = GetAutheticatedUserId();
+            //var userId = GetAutheticatedUserId();
             //var chatRooms = await _chatRoomService.GetAllByUserId(userId);
             var chatRooms = await _chatRoomService.GetAll();
             return chatRooms;
@@ -71,6 +80,11 @@ namespace Application.Controllers
         {
             var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
             return userId;
+        }
+
+        private void NotifyClientOfMQMessage(IMessageMQ message)
+        {
+            _messageHub.SendMessagee(message.MessageId.ToString()).Wait();
         }
     }
 }

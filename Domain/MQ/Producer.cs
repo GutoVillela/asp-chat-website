@@ -19,37 +19,30 @@ namespace Domain.MQ
 
         public void PublishMessage(IMessageMQ message)
         {
-            try
-            {
-                if (!message.IsValid)
-                    throw new ArgumentException(message.GetNotificationsError());
+            if (!message.IsValid)
+                throw new ArgumentException(message.GetNotificationsError());
 
-                using (var connection = _factory.CreateConnection())
+            using (var connection = _factory.CreateConnection())
+            {
+                using (var channel = connection.CreateModel())
                 {
-                    using (var channel = connection.CreateModel())
-                    {
-                        channel.QueueDeclare(
-                            queue: QueueNameManager.GetQueueName(message.ChatId),
-                            durable: false,
-                            exclusive: false,
-                            autoDelete: false,
-                            arguments: null
-                            );
+                    channel.QueueDeclare(
+                        queue: QueueNameManager.GetQueueName(message.ChatId),
+                        durable: true,
+                        exclusive: false,
+                        autoDelete: false,
+                        arguments: null
+                        );
 
-                        var stringMessage = JsonSerializer.Serialize(message.MessageId);
-                        var byteArray = Encoding.UTF8.GetBytes(stringMessage);
+                    var stringMessage = JsonSerializer.Serialize(message.MessageId);
+                    var byteArray = Encoding.UTF8.GetBytes(stringMessage);
 
-                        channel.BasicPublish(
-                            exchange: "",
-                            routingKey: QueueNameManager.GetQueueName(message.ChatId),
-                            basicProperties: null,
-                            body: byteArray);
-                    }
+                    channel.BasicPublish(
+                        exchange: "",
+                        routingKey: QueueNameManager.GetQueueName(message.ChatId),
+                        basicProperties: null,
+                        body: byteArray);
                 }
-            }
-            catch (Exception ex)
-            {
-
             }
         }
     }

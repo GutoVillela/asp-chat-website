@@ -15,6 +15,8 @@ using Domain.MQ;
 using RabbitMQ.Client;
 using Domain.Commands.SendMessage;
 using Domain.Queries.GetMessagesByChatRoom;
+using Application.Hubs;
+using Application.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +48,11 @@ builder.Services.AddScoped<IQueryHandler<GetMessagesByChatRoomQuery, GetMessages
 // MQ
 builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>(x => new ConnectionFactory() { HostName = "localhost" });// TODO Grab Hostname from AppSettings
 builder.Services.AddSingleton<IProducer, Producer>();
-//builder.Services.AddSingleton<IConsumer, Consumer>();
+builder.Services.AddSingleton<IConsumer, Consumer>();
+
+// SignalR
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<MessageHub>();
 
 // Identity
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -74,6 +80,12 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// SignalR Endpoint
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<MessageHub>(HubManager.MESSAGE_HUB_ENDPOINT);
+});
 
 app.MapControllerRoute(
     name: "default",
