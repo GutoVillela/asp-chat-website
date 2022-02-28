@@ -1,0 +1,29 @@
+﻿@using Application.Infrastructure
+@using System.Security.Claims
+@model IEnumerable<MessageViewModel>
+
+@if (Model is null || !Model.Any())
+{
+    <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+        <div class="card-header">There's nothing here yet</div>
+        <div class="card-body">
+            <h5 class="card-title">No messages here yet</h5>
+            <p class="card-text">Be the first one to send! =D</p>
+        </div>
+    </div>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        var userId = ((ClaimsIdentity)User.Identity)?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+        var floatClass = userId == item.AuthorId ? "ms-auto" : "me-auto";
+        
+        <div class="card text-dark bg-light mb-3 @floatClass" style="max-width: 18rem;">
+            <div class="card-header">@item.AuthorName</div>
+            <div class="card-body">
+                <p class="card-text">@item.Message</p>
+            </div>
+        </div>
+    }
+}

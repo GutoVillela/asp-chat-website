@@ -200,8 +200,6 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MessageHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    MessageSaltIterations = table.Column<int>(type: "int", nullable: false),
                     ChatRoomId = table.Column<int>(type: "int", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

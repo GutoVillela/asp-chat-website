@@ -36,15 +36,14 @@
                     Featured
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    @await Component.InvokeAsync("ListMessages", new { selectedChatId = Model.SelectedChat!.Value })
                 </div>
                 <div class="card-footer">
-                    <form class="row">
+                    <form class="row" asp-action="SendMessage" asp-controller="Home">
+                        <input type="hidden" name="chatRoomId" value="@Model.SelectedChat" />
                         <div class="col-md-8">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                <textarea class="form-control" placeholder="Leave a comment here" name="message"></textarea>
                                 <label for="floatingTextarea">Enter your message here</label>
                             </div>
                         </div>

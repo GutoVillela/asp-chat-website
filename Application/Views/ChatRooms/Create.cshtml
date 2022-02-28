@@ -16,7 +16,7 @@
                         @{
                             var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
                         }
-                        <input type="hidden" asp-for="UserId" class="form-control" value="@userId" />
+                        <input type="hidden" asp-for="CreatorId" class="form-control" value="@userId" />
                         <div class="col-12 mb-3">
                             <div class="input-group flex-nowrap">
                                 <span class="input-group-text" id="addon-wrapping">Name</span>

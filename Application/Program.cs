@@ -1,7 +1,6 @@
 using Domain.Entities;
 using Infrastructure.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Application.Services.Interfaces;
 using Application.Services;
 using Domain.Repositories;
@@ -11,6 +10,11 @@ using Infrastructure.UnitOfWork;
 using Shared.Handlers;
 using Domain.Commands.CreateChatRoom;
 using Domain.Queries.GetChatRoomsByUser;
+using DomainCore.MQ;
+using Domain.MQ;
+using RabbitMQ.Client;
+using Domain.Commands.SendMessage;
+using Domain.Queries.GetMessagesByChatRoom;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // Services
 builder.Services.AddScoped<IChatRoomApplicationService, ChatRoomApplicationService>();
+builder.Services.AddScoped<IMessageApplicationService, MessageApplicationService>();
 
 // Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -28,13 +33,22 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Repositories
 builder.Services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 // Command Handlers
 builder.Services.AddScoped<ICommandHandler<CreateChatRoomCommand>, CreateChatRoomCommandHandler>();
+builder.Services.AddScoped<ICommandHandler<SendMessageCommand>, SendMessageCommandHandler>();
 
 // Query Handlers
 builder.Services.AddScoped<IQueryHandler<GetChatRoomsByUserQuery, GetChatRoomsByUserQueryResult>, GetChatRoomsByUserQueryHandler>();
+builder.Services.AddScoped<IQueryHandler<GetMessagesByChatRoomQuery, GetMessagesByChatRoomQueryResult>, GetMessagesByChatRoomQueryHandler>();
 
+// MQ
+builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>(x => new ConnectionFactory() { HostName = "localhost" });// TODO Grab Hostname from AppSettings
+builder.Services.AddSingleton<IProducer, Producer>();
+//builder.Services.AddSingleton<IConsumer, Consumer>();
+
+// Identity
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();

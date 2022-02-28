@@ -9,6 +9,8 @@ namespace Application.Models
         [Required]
         public string Name { get; set; }
 
-        public string UserId { get; set; }
+        public string CreatorId { get; set; }
+
+        public IEnumerable<string> UsersIds { get; set; } = new List<string>();
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220227185610_FirstMigration")]
+    [Migration("20220228133620_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,13 +80,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("MessageHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("MessageSalt")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("MessageSaltIterations")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

@@ -17,5 +17,12 @@ namespace Infrastructure.Repositories
                 .Where(ChatRoomQueriable.GetByUserId(userId))
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<ChatRoom>> ReadAllIncludingUsersAsync()
+        {
+            return await _dbSet.AsNoTracking()
+                .Include(ChatRoomQueriable.IncludeUsers())
+                .ToListAsync();
+        }
     }
 }

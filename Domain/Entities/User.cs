@@ -4,6 +4,7 @@ using Shared.Constants;
 using Shared.Entities;
 using Shared.Validations;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 
 namespace Domain.Entities
 {
@@ -17,6 +18,7 @@ namespace Domain.Entities
             ValidateUser();
         }
 
+        public static ClaimsIdentity Identity { get; set; }
         public IReadOnlyCollection<ChatRoom>? ChatRooms { get; private set; }
 
         public IReadOnlyCollection<Message>? Messages { get; private set; }

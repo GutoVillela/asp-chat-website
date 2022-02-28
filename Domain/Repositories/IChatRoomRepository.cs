@@ -5,6 +5,7 @@ namespace Domain.Repositories
 {
     public interface IChatRoomRepository : IRepository<ChatRoom>
     {
+        Task<IEnumerable<ChatRoom>> ReadAllIncludingUsersAsync();
         Task<IEnumerable<ChatRoom>> ReadAllByUserIncludingUsersAsync(string userId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using Application.Infrastructure;
+using Application.Models;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace Application.Controllers
     public class HomeController : Controller
     {
         private readonly IChatRoomApplicationService _chatRoomService;
+        private readonly IMessageApplicationService _messageService;
 
-        public HomeController(IChatRoomApplicationService chatRoomService)
+        public HomeController(IChatRoomApplicationService chatRoomService, IMessageApplicationService messageService)
         {
             _chatRoomService = chatRoomService;
+            _messageService = messageService;
         }
 
         [HttpGet]
@@ -35,6 +38,21 @@ namespace Application.Controllers
             return RedirectToAction(nameof(Index), model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SendMessageAsync(int? chatRoomId, string? message)
+        {
+            if (chatRoomId is null || message is null)
+                return NotFound();
+
+            var result = await _messageService.SendMessageAsync(chatRoomId: chatRoomId.Value, message: message, userId: GetAutheticatedUserId());
+
+            if (result.Success)
+                return RedirectToAction(nameof(Index), new HomeViewModel { SelectedChat = chatRoomId });
+
+            return BadRequest();
+            
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -43,9 +61,16 @@ namespace Application.Controllers
 
         private async Task<IEnumerable<ChatRoomViewModel>> LoadChatRooms()
         {
-            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
-            var chatRooms = await _chatRoomService.GetAllByUserId(userId);
+            var userId = GetAutheticatedUserId();
+            //var chatRooms = await _chatRoomService.GetAllByUserId(userId);
+            var chatRooms = await _chatRoomService.GetAll();
             return chatRooms;
+        }
+
+        private string GetAutheticatedUserId()
+        {
+            var userId = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value;
+            return userId;
         }
     }
 }
