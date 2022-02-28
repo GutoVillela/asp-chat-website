@@ -1,10 +1,60 @@
-﻿@{
+﻿@model HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <!-- CHAT ROOM LIST -->
+    <div class="col-md-4">
+        <ul class="list-group">
+            @foreach (var chatRoom in Model.Chats)
+            {
+                <a asp-area="" asp-controller="Home" asp-action="ViewChat" asp-route-id="@chatRoom.Id">
+                    <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                            @chatRoom.Name
+                        <span class="badge bg-primary rounded-pill">Click to join</span>
+                    </li>
+                </a>
+            }
+        </ul>
+    </div>
+
+    <!-- CURRENT CHATROOM -->
+    <div class="col-md-8">
+        @if (Model.SelectedChat is null)
+        {
+            <div class="alert alert-primary" role="alert">
+                Select a chat to view the messages
+            </div>
+
+        }
+        else
+        {
+            <div class="card text-center">
+                <div class="card-header">
+                    Featured
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+                <div class="card-footer">
+                    <form class="row">
+                        <div class="col-md-8">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                                <label for="floatingTextarea">Enter your message here</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary mb-3">Send message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-
-

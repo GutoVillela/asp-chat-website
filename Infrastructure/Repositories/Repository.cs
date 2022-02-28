@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Entities;
+using Shared.Queriables;
 using Shared.Repositories;
 
 namespace Infrastructure.Repositories
@@ -28,13 +29,7 @@ namespace Infrastructure.Repositories
 
         public virtual async Task<TEntity?> ReadAsync(int id)
         {
-            TEntity? entity = await _dbSet.SingleOrDefaultAsync(x => x.Id == id);
-            return entity;
-        }
-
-        public virtual async Task<TEntity?> ReadAsNoTrackingAsync(int id)
-        {
-            TEntity? entity = await _dbSet.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+            TEntity? entity = await _dbSet.SingleOrDefaultAsync(QueriableBase<TEntity>.GetById(id));
             return entity;
         }
 

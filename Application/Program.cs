@@ -10,6 +10,7 @@ using Shared.Repositories;
 using Infrastructure.UnitOfWork;
 using Shared.Handlers;
 using Domain.Commands.CreateChatRoom;
+using Domain.Queries.GetChatRoomsByUser;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +29,11 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IChatRoomRepository, ChatRoomRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-// Handlers
+// Command Handlers
 builder.Services.AddScoped<ICommandHandler<CreateChatRoomCommand>, CreateChatRoomCommandHandler>();
+
+// Query Handlers
+builder.Services.AddScoped<IQueryHandler<GetChatRoomsByUserQuery, GetChatRoomsByUserQueryResult>, GetChatRoomsByUserQueryHandler>();
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();

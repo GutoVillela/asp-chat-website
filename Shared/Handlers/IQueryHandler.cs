@@ -2,8 +2,8 @@
 
 namespace Shared.Handlers
 {
-    public interface IQueryHandler<T> where T : IQueryRequest
+    public interface IQueryHandler<TRequest, TResult> where TRequest : IQueryRequest where TResult : IQueryResult
     {
-        Task<IQueryResult> HandleAsync(T command);
+        Task<TResult> HandleAsync(TRequest command);
     }
 }
