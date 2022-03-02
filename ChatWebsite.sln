@@ -3,23 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{F128CEDA-B902-4CA9-9553-FF579A423AEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{F128CEDA-B902-4CA9-9553-FF579A423AEA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{9E165EAF-73CF-4A47-BB9E-90EB09FBEAD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{9E165EAF-73CF-4A47-BB9E-90EB09FBEAD8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{47B7C6E9-251A-4088-9CAD-026ED9E7D540}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Shared\Shared.csproj", "{47B7C6E9-251A-4088-9CAD-026ED9E7D540}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{4D12A57B-7435-4A6B-99C0-88D43FB4CD3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{4D12A57B-7435-4A6B-99C0-88D43FB4CD3E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{E80B0049-F33D-42F9-88C6-7625E6F53638}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "test\Tests\Tests.csproj", "{E80B0049-F33D-42F9-88C6-7625E6F53638}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainCore", "DomainCore\DomainCore.csproj", "{CD30787A-186E-4BFA-B35D-6351362926EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainCore", "src\DomainCore\DomainCore.csproj", "{CD30787A-186E-4BFA-B35D-6351362926EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot", "Bot\Bot.csproj", "{5F925CD9-919D-46A6-96B1-2E1E98B9C590}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5209E78C-4880-4BF2-9AAD-AC7B6BE0AC05}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BB0B8775-C56E-49C3-9D0F-FEAA5C9488DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot", "src\Bot\Bot.csproj", "{5F925CD9-919D-46A6-96B1-2E1E98B9C590}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,15 +54,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{F128CEDA-B902-4CA9-9553-FF579A423AEA} = {5209E78C-4880-4BF2-9AAD-AC7B6BE0AC05}
-		{9E165EAF-73CF-4A47-BB9E-90EB09FBEAD8} = {5209E78C-4880-4BF2-9AAD-AC7B6BE0AC05}
-		{47B7C6E9-251A-4088-9CAD-026ED9E7D540} = {5209E78C-4880-4BF2-9AAD-AC7B6BE0AC05}
-		{4D12A57B-7435-4A6B-99C0-88D43FB4CD3E} = {5209E78C-4880-4BF2-9AAD-AC7B6BE0AC05}
-		{E80B0049-F33D-42F9-88C6-7625E6F53638} = {BB0B8775-C56E-49C3-9D0F-FEAA5C9488DE}
-		{CD30787A-186E-4BFA-B35D-6351362926EB} = {5209E78C-4880-4BF2-9AAD-AC7B6BE0AC05}
-		{5F925CD9-919D-46A6-96B1-2E1E98B9C590} = {5209E78C-4880-4BF2-9AAD-AC7B6BE0AC05}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6D74733-5778-4577-8C79-A24EE2418F55}
