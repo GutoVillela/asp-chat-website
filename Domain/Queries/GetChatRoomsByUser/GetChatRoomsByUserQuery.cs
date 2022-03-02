@@ -1,4 +1,4 @@
-﻿using Shared.Queries;
+﻿using DomainCore.Queries;
 
 namespace Domain.Queries.GetChatRoomsByUser
 {

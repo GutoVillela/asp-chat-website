@@ -1,7 +1,7 @@
-﻿using Shared.Entities;
+﻿using DomainCore.Entities;
 using System.Linq.Expressions;
 
-namespace Shared.Queriables
+namespace DomainCore.Queriables
 {
     public class QueriableBase<TEntity> where TEntity : Entity
     {

@@ -1,7 +1,7 @@
 ﻿using Flunt.Notifications;
 using Microsoft.AspNetCore.Identity;
 using Shared.Constants;
-using Shared.Entities;
+using DomainCore.Entities;
 using System.Security.Claims;
 
 namespace Domain.Entities

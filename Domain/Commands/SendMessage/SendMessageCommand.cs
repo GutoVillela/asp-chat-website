@@ -1,6 +1,6 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
-using Shared.Commands;
+using DomainCore.Commands;
 using Shared.Constants;
 using Shared.Validations;
 

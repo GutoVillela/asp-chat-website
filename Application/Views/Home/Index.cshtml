@@ -76,6 +76,8 @@
     connection.on('@HubManager.MESSAGE_HUB_RECEIVE_MESSAGE_METHOD', function (data) {
         if(data.chatRoomId == $('#selectedChat').val())
             AppendMessageToView(data, data.authorName == userName);
+        else
+            alert("Vc recebeu msg em outro chat: " + data.chatRoomId);
     });
 
     connection.on('@HubManager.MESSAGE_HUB_NOTIFY_ERROR_METHOD', function (data) {

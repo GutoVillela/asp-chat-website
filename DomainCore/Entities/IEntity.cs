@@ -1,7 +1,7 @@
 ﻿using Flunt.Notifications;
 using Shared.Validations;
 
-namespace Shared.Entities
+namespace DomainCore.Entities
 {
     public interface IEntity : IValidatable<Notification>
     {

@@ -1,6 +1,6 @@
 ﻿using Shared.ValueObjects;
 
-namespace Shared.Commands
+namespace DomainCore.Commands
 {
     public interface ICommandResult
     {

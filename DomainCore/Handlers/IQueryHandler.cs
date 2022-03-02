@@ -1,6 +1,6 @@
-﻿using Shared.Queries;
+﻿using DomainCore.Queries;
 
-namespace Shared.Handlers
+namespace DomainCore.Handlers
 {
     public interface IQueryHandler<TRequest, TResult> where TRequest : IQueryRequest where TResult : IQueryResult
     {

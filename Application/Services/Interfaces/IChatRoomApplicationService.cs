@@ -1,5 +1,5 @@
 ﻿using Application.Models;
-using Shared.Commands;
+using DomainCore.Commands;
 
 namespace Application.Services.Interfaces
 {

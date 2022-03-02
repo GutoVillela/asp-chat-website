@@ -1,4 +1,4 @@
-﻿namespace Shared.Queries
+﻿namespace DomainCore.Queries
 {
     public interface IQueryResult
     {

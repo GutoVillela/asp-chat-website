@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Shared.Entities
+namespace DomainCore.Entities
 {
     public abstract class Entity : Notifiable<Notification>, IEntity
     {

@@ -1,6 +1,6 @@
-﻿using Shared.Commands;
+﻿using DomainCore.Commands;
 
-namespace Shared.Handlers
+namespace DomainCore.Handlers
 {
     public interface ICommandHandler<T> where T : ICommand
     {

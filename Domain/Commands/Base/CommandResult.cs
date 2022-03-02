@@ -1,4 +1,4 @@
-﻿using Shared.Commands;
+﻿using DomainCore.Commands;
 using Shared.ValueObjects;
 
 namespace Domain.Commands.Base

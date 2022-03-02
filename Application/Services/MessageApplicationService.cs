@@ -4,8 +4,8 @@ using Application.Services.Interfaces;
 using Domain.Commands.SendMessage;
 using Domain.Queries.GetMessagesByChatRoom;
 using Domain.Queries.GetMessagesByChatRoom.DTOs;
-using Shared.Commands;
-using Shared.Handlers;
+using DomainCore.Commands;
+using DomainCore.Handlers;
 
 namespace Application.Services
 {

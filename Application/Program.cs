@@ -7,7 +7,7 @@ using Domain.Repositories;
 using Infrastructure.Repositories;
 using Shared.Repositories;
 using Infrastructure.UnitOfWork;
-using Shared.Handlers;
+using DomainCore.Handlers;
 using Domain.Commands.CreateChatRoom;
 using Domain.Queries.GetChatRoomsByUser;
 using DomainCore.MQ;

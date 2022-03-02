@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Queries.GetChatRoomsByUser.DTOs;
 using Domain.Repositories;
-using Shared.Handlers;
+using DomainCore.Handlers;
 
 namespace Domain.Queries.GetChatRoomsByUser
 {

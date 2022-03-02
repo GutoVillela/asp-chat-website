@@ -1,7 +1,7 @@
 ﻿using Flunt.Notifications;
 using Flunt.Validations;
 using Shared.Constants;
-using Shared.Entities;
+using DomainCore.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities

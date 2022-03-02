@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Entities;
-using Shared.Queriables;
+using DomainCore.Entities;
+using DomainCore.Queriables;
 using Shared.Repositories;
 
 namespace Infrastructure.Repositories

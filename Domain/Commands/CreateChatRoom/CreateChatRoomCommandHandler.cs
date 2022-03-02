@@ -2,10 +2,10 @@
 using Domain.Entities;
 using Domain.Repositories;
 using Flunt.Notifications;
-using Shared.Commands;
+using DomainCore.Commands;
 using Shared.Constants;
 using Shared.Extensions;
-using Shared.Handlers;
+using DomainCore.Handlers;
 using Shared.Repositories;
 using Shared.Validations;
 using Shared.ValueObjects;

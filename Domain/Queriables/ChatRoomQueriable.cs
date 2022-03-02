@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Shared.Queriables;
+using DomainCore.Queriables;
 using System.Linq.Expressions;
 
 namespace Domain.Queriables

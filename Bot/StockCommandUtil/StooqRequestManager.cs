@@ -1,7 +1,6 @@
 ﻿using Bot.Constants;
 using Bot.OutputDTO;
 using System.Globalization;
-using System.Net;
 
 namespace Bot.StockCommandUtil
 {

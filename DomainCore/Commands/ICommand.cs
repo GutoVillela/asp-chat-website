@@ -1,4 +1,4 @@
-﻿namespace Shared.Commands
+﻿namespace DomainCore.Commands
 {
     public interface ICommand
     {

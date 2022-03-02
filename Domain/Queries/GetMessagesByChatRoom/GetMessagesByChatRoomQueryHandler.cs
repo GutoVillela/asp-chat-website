@@ -2,7 +2,7 @@
 using Domain.Queries.GetMessagesByChatRoom.DTOs;
 using Domain.Repositories;
 using DomainCore.Helpers;
-using Shared.Handlers;
+using DomainCore.Handlers;
 
 namespace Domain.Queries.GetMessagesByChatRoom
 {

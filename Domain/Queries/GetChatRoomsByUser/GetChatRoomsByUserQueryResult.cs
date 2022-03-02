@@ -1,5 +1,5 @@
 ﻿using Domain.Queries.GetChatRoomsByUser.DTOs;
-using Shared.Queries;
+using DomainCore.Queries;
 
 namespace Domain.Queries.GetChatRoomsByUser
 {

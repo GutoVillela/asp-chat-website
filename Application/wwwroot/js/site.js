@@ -16,7 +16,6 @@ $(document).ready(function () {
             url: sendMessageUrl,
             data: { chatRoomId: chatRoomId, message: message }
         }).done(function (response) {
-            //AppendMessageToView({ authorName: userName, message: message }, true);
             $('#message').val('');
         }).fail(function (error) {
             ToastErrorMessage(error.responseText);

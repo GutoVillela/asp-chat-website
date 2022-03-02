@@ -1,4 +1,4 @@
-﻿using Shared.Entities;
+﻿using DomainCore.Entities;
 
 namespace Shared.Repositories
 {

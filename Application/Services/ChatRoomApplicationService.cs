@@ -5,8 +5,8 @@ using Domain.Entities;
 using Domain.Queries.GetChatRoomsByUser;
 using Domain.Queries.GetChatRoomsByUser.DTOs;
 using Domain.Repositories;
-using Shared.Commands;
-using Shared.Handlers;
+using DomainCore.Commands;
+using DomainCore.Handlers;
 
 namespace Application.Services
 {
