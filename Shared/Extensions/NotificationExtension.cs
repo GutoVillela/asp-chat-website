@@ -7,7 +7,10 @@ namespace Shared.Extensions
     {
         public static string GetNotificationsError<T>(this T obj) where T : IValidatable<Notification>
         {
-            return obj.Notifications?.Select(x => x.ToString() + ". ")?.ToString() ?? string.Empty;
+            if(!obj.Notifications.Any())
+                return string.Empty;
+
+            return string.Join(". ", obj.Notifications.Select(x => x.Message + ". "));
         }
     }
 }

@@ -13,6 +13,7 @@
         public const string ERROR_NULL_CHATROOM_ID = "The chatroom ID can't be null";
         public const string ERROR_EMPTY_MESSAGE_TEXT = "The message can't be empty";
         public const string SUCCESS_ON_SEND_MESSAGE_COMMAND = "The message was sent successfully";
+        public const string SUCCESS_ON_SEND_CHAT_COMMAND_TO_BOT = "The chat command was sent to the bot";
         #endregion SendMessage Command
     }
 }

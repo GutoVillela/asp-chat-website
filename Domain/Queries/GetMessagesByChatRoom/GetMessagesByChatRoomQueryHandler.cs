@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Queries.GetMessagesByChatRoom.DTOs;
 using Domain.Repositories;
+using DomainCore.Helpers;
 using Shared.Handlers;
 
 namespace Domain.Queries.GetMessagesByChatRoom
@@ -9,10 +10,12 @@ namespace Domain.Queries.GetMessagesByChatRoom
     {
 
         private readonly IMessageRepository _messageRepository;
+        private readonly ICryptographyHelper _cryptographyHelper;
 
-        public GetMessagesByChatRoomQueryHandler(IMessageRepository messageRepository)
+        public GetMessagesByChatRoomQueryHandler(IMessageRepository messageRepository, ICryptographyHelper cryptographyHelper)
         {
             _messageRepository = messageRepository;
+            _cryptographyHelper = cryptographyHelper;
         }
 
         public async Task<GetMessagesByChatRoomQueryResult> HandleAsync(GetMessagesByChatRoomQuery command)
@@ -34,7 +37,7 @@ namespace Domain.Queries.GetMessagesByChatRoom
         {
             return new MessageDTO
             {
-                MessageText = _messageRepository.DecryptMessage(messageEntity.MessageHash),
+                MessageText = _cryptographyHelper.DecryptMessage(messageEntity.MessageHash),
                 AuthorId = messageEntity.AuthorId,
                 AuthorName = messageEntity.Author?.UserName ?? string.Empty,
                 SentAt = messageEntity.CreationDate

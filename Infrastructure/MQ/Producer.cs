@@ -6,7 +6,7 @@ using System.Text.Json;
 using Shared.Extensions;
 using DomainCore.ValueObjects;
 
-namespace Domain.MQ
+namespace Infrastructure.MQ
 {
     public class Producer : IProducer
     {
@@ -34,7 +34,7 @@ namespace Domain.MQ
                         arguments: null
                         );
 
-                    var stringMessage = JsonSerializer.Serialize(message.MessageId);
+                    var stringMessage = JsonSerializer.Serialize(message);
                     var byteArray = Encoding.UTF8.GetBytes(stringMessage);
 
                     channel.BasicPublish(

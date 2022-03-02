@@ -1,4 +1,5 @@
 ﻿@using Application.Infrastructure
+@using System.Security.Claims
 @model HomeViewModel
 
 @{
@@ -36,21 +37,21 @@
                 <div class="card-header">
                     Featured
                 </div>
-                <div class="card-body">
+                <div class="card-body overflow-auto" style="max-height: 50vh" id="messagesArea">
                     @await Component.InvokeAsync("ListMessages", new { selectedChatId = Model.SelectedChat!.Value })
                 </div>
                 <div class="card-footer">
                     <form class="row" asp-action="SendMessage" asp-controller="Home">
-                        <input type="hidden" name="chatRoomId" value="@Model.SelectedChat" />
+                        <input type="hidden" name="chatRoomId" id="selectedChat" value="@Model.SelectedChat" />
                         <div class="col-md-8">
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" name="message"></textarea>
+                                <textarea class="form-control" placeholder="Leave a comment here" name="message" id="message"></textarea>
                                 <label for="floatingTextarea">Enter your message here</label>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <button type="submit" class="btn btn-primary mb-3">Send message</button>
+                            <button type="button" id="sendMessageButton" class="btn btn-primary mb-3">Send message</button>
                         </div>
                     </form>
                 </div>
@@ -60,13 +61,26 @@
 </div>
 
 @section Scripts{
+    @{
+        //var userId = ((ClaimsIdentity)User.Identity)?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+        var userName = ((ClaimsIdentity)User.Identity)?.FindFirst(ClaimTypes.Name)?.Value ?? string.Empty;
+    }
+
 <script>
+    var userName = '@userName';
+    var sendMessageUrl = '@Url.Action("SendMessage", "Home")';
+
     var connection = new signalR.HubConnectionBuilder()
         .withUrl('@HubManager.MESSAGE_HUB_ENDPOINT')
         .build();
 
     connection.on('@HubManager.MESSAGE_HUB_RECEIVE_MESSAGE_METHOD', function (data) {
-        location.reload();// TODO Get message without reloading the whole page
+        if(data.chatRoomId == $('#selectedChat').val())
+            AppendMessageToView(data, data.authorName == userName);
+    });
+
+    connection.on('@HubManager.MESSAGE_HUB_NOTIFY_ERROR_METHOD', function (data) {
+            ToastErrorMessage(data.message);
     });
 
     connection.start().then(function () {
@@ -75,5 +89,6 @@
         console.error(err.toString());
         return console.error(err.toString());
     });
+    
 </script>
 }

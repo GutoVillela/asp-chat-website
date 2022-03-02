@@ -1,8 +1,8 @@
 ﻿using Application.Hubs;
-using Application.Infrastructure;
 using Application.Models;
 using Application.Services.Interfaces;
 using Domain.ValueObjects;
+using DomainCore.Helpers;
 using DomainCore.MQ;
 using DomainCore.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
@@ -18,13 +18,15 @@ namespace Application.Controllers
         private readonly IChatRoomApplicationService _chatRoomService;
         private readonly IMessageApplicationService _messageService;
         private readonly IConsumer _consumer;
+        private readonly ICryptographyHelper _cryptographyHelper;
         private readonly MessageHub _messageHub;
 
-        public HomeController(IChatRoomApplicationService chatRoomService, IMessageApplicationService messageService, IConsumer consumer, MessageHub messageHub)
+        public HomeController(IChatRoomApplicationService chatRoomService, IMessageApplicationService messageService, IConsumer consumer, ICryptographyHelper cryptographyHelper, MessageHub messageHub)
         {
             _chatRoomService = chatRoomService;
             _messageService = messageService;
             _consumer = consumer;
+            _cryptographyHelper = cryptographyHelper;
             _messageHub = messageHub;
         }
 
@@ -56,9 +58,10 @@ namespace Application.Controllers
             var result = await _messageService.SendMessageAsync(chatRoomId: chatRoomId.Value, message: message, userId: GetAutheticatedUserId());
 
             if (result.Success)
-                return RedirectToAction(nameof(Index), new HomeViewModel { SelectedChat = chatRoomId });
+                return Ok();
+                //return RedirectToAction(nameof(Index), new HomeViewModel { SelectedChat = chatRoomId });
 
-            return BadRequest();
+            return BadRequest(result.Message);
             
         }
 
@@ -84,7 +87,12 @@ namespace Application.Controllers
 
         private void NotifyClientOfMQMessage(IMessageMQ message)
         {
-            _messageHub.SendMessagee(message.MessageId.ToString()).Wait();
+            string messageText = _cryptographyHelper.DecryptMessage(message.MessageHash);
+
+            if (message.IsErrorMessage)
+                _messageHub.NotifyError(message: messageText).Wait();
+            else
+                _messageHub.SendMessage(message: messageText, authorName: message.AuthorName, chatRoomId: message.ChatId).Wait();
         }
     }
 }

@@ -2,7 +2,10 @@
 using Domain.Entities;
 using Domain.Repositories;
 using Domain.ValueObjects;
+using DomainCore.Bot;
+using DomainCore.Helpers;
 using DomainCore.MQ;
+using DomainCore.ValueObjects;
 using Flunt.Notifications;
 using Shared.Commands;
 using Shared.Constants;
@@ -21,14 +24,25 @@ namespace Domain.Commands.SendMessage
         private readonly IUserRepository _userRepository;
         private readonly IMessageRepository _messageRepository;
         private readonly IProducer _mqProducer;
+        private readonly ICryptographyHelper _cryptographyHelper;
+        private readonly IBot _bot;
 
-        public SendMessageCommandHandler(IUnitOfWork unitOfWork, IChatRoomRepository chatRoomRepository, IUserRepository userRepository, IMessageRepository messageRepository, IProducer mqProducer)
+        public SendMessageCommandHandler(
+            IUnitOfWork unitOfWork,
+            IChatRoomRepository chatRoomRepository,
+            IUserRepository userRepository,
+            IMessageRepository messageRepository,
+            IProducer mqProducer,
+            ICryptographyHelper cryptographyHelper,
+            IBot bot)
         {
             _unitOfWork = unitOfWork;
             _chatRoomRepository = chatRoomRepository;
             _userRepository = userRepository;
             _messageRepository = messageRepository;
             _mqProducer = mqProducer;
+            _cryptographyHelper = cryptographyHelper;
+            _bot = bot;
         }
 
         public async Task<ICommandResult> HandleAsync(SendMessageCommand command)
@@ -58,7 +72,15 @@ namespace Domain.Commands.SendMessage
                 return new CommandResult(false, error.ToString(), error);
             }
 
-            string messageHash = _messageRepository.EncryptMessage(command.Message!);
+            // Check if message is a command
+            ChatCommand chatCommand = new();
+            chatCommand.Command = command.Message;
+            chatCommand.ChatId = chatroom.Id;
+            if (chatCommand.IsChatCommand(chatCommand.Command))
+                return SendCommandToBot(chatCommand);
+
+            // If the message is not a command proceed with insert
+            string messageHash = _cryptographyHelper.EncryptMessage(command.Message!);
 
             // Create Entity
             Message message = new(
@@ -81,9 +103,15 @@ namespace Domain.Commands.SendMessage
             await _unitOfWork.CommitAsync();
 
             // Send message to MQ
-            _mqProducer.PublishMessage(new MessageMQ (messageId: message.Id, chatId: chatroom.Id));
+            _mqProducer.PublishMessage(new MessageMQ (messageHash: message.MessageHash, authorName: author.UserName, chatId: chatroom.Id, isErrorMessage: false));
 
             return new CommandResult(true, CommandValidations.SUCCESS_ON_SEND_MESSAGE_COMMAND);
+        }
+
+        private ICommandResult SendCommandToBot(IChatCommand chatCommand)
+        {
+            Task.Run(() => _bot.ProcessCommand(chatCommand));
+            return new CommandResult(true, CommandValidations.SUCCESS_ON_SEND_CHAT_COMMAND_TO_BOT);
         }
     }
 }

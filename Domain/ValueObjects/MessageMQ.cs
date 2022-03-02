@@ -8,21 +8,26 @@ namespace Domain.ValueObjects
 {
     public class MessageMQ : ValueObject, IMessageMQ
     {
-        public MessageMQ(int messageId, int chatId)
+
+        public MessageMQ(string messageHash, string authorName, int chatId, bool isErrorMessage)
         {
-            MessageId = messageId;
+            MessageHash = messageHash;
+            AuthorName = authorName;
             ChatId = chatId;
+            IsErrorMessage = isErrorMessage;
             ValidateMessageMQ();
         }
-
-        public int MessageId { get; set; }
         public int ChatId { get; set; }
+        public string AuthorName { get ; set ; }
+        public string MessageHash { get; set; }
+        public bool IsErrorMessage { get; set; } = false;
 
         private void ValidateMessageMQ()
         {
             AddNotifications(new Contract<Notification>()
                 .Requires()
-                .IsNotNull(MessageId, nameof(MessageId), ValueObjectValidations.ERROR_NULL_MESSAGE_ID)
+                .IsNotNullOrEmpty(MessageHash, nameof(MessageHash), ValueObjectValidations.ERROR_EMPTY_MESSAGE_HASH)
+                .IsNotNullOrEmpty(AuthorName, nameof(AuthorName), ValueObjectValidations.ERROR_EMPTY_AUTHOR_NAME)
                 .IsNotNull(ChatId, nameof(ChatId), ValueObjectValidations.ERROR_NULL_CHAT_ID)
             );
         }

@@ -11,12 +11,16 @@ using Shared.Handlers;
 using Domain.Commands.CreateChatRoom;
 using Domain.Queries.GetChatRoomsByUser;
 using DomainCore.MQ;
-using Domain.MQ;
+using Infrastructure.MQ;
 using RabbitMQ.Client;
 using Domain.Commands.SendMessage;
 using Domain.Queries.GetMessagesByChatRoom;
 using Application.Hubs;
 using Application.Infrastructure;
+using DomainCore.Bot;
+using Bot;
+using Infrastructure.Helpers;
+using DomainCore.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,7 +56,14 @@ builder.Services.AddSingleton<IConsumer, Consumer>();
 
 // SignalR
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<MessageHub>();
+//builder.Services.AddSingleton<IMessageHub, MessageHub>();
+builder.Services.AddSingleton<MessageHub, MessageHub>();
+
+// Helpers
+builder.Services.AddSingleton<ICryptographyHelper, CryptographyHelper>();
+
+// Bot
+builder.Services.AddSingleton<IBot, StockCommandBot>();
 
 // Identity
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)

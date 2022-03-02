@@ -6,8 +6,9 @@ using RabbitMQ.Client.Events;
 using Shared.Extensions;
 using Shared.MQ;
 using System.Text;
+using System.Text.Json;
 
-namespace Domain.MQ
+namespace Infrastructure.MQ
 {
     public class Consumer : IConsumer
     {
@@ -43,7 +44,7 @@ namespace Domain.MQ
                 var body = eventArgs.Body;
                 var message = Encoding.UTF8.GetString(body.ToArray());
 
-                IMessageMQ messageMQ = new MessageMQ(messageId: Convert.ToInt32(message), chatId: channelToConsume.ChatId);
+                IMessageMQ messageMQ = JsonSerializer.Deserialize<MessageMQ>(message);//new MessageMQ(messageId: Convert.ToInt32(message), chatId: channelToConsume.ChatId);
                 callBack(messageMQ);
 
                 channel.BasicAck(eventArgs.DeliveryTag, false);
