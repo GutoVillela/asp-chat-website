@@ -57,7 +57,7 @@ namespace Domain.Commands.SendMessage
             }
 
             // Validate author
-            User? author = await _userRepository.ReadAsync(command.AuthorId);
+            User? author = await _userRepository.ReadAsync(command.AuthorId!);
             if (author is null)
             {
                 Error error = new(code: ErrorCodes.ERROR_USER_NOT_FOUND, message: string.Format(CommandErrors.ERROR_USER_NOT_FOUND, command.AuthorId));

@@ -56,7 +56,6 @@ builder.Services.AddSingleton<IConsumer, Consumer>();
 
 // SignalR
 builder.Services.AddSignalR();
-//builder.Services.AddSingleton<IMessageHub, MessageHub>();
 builder.Services.AddSingleton<MessageHub, MessageHub>();
 
 // Helpers

@@ -44,7 +44,7 @@ namespace Infrastructure.MQ
                 var body = eventArgs.Body;
                 var message = Encoding.UTF8.GetString(body.ToArray());
 
-                IMessageMQ messageMQ = JsonSerializer.Deserialize<MessageMQ>(message);//new MessageMQ(messageId: Convert.ToInt32(message), chatId: channelToConsume.ChatId);
+                IMessageMQ messageMQ = JsonSerializer.Deserialize<MessageMQ>(message);
                 callBack(messageMQ);
 
                 channel.BasicAck(eventArgs.DeliveryTag, false);

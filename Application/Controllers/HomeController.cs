@@ -59,7 +59,6 @@ namespace Application.Controllers
 
             if (result.Success)
                 return Ok();
-                //return RedirectToAction(nameof(Index), new HomeViewModel { SelectedChat = chatRoomId });
 
             return BadRequest(result.Message);
             

@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Shared.Constants;
 using Shared.Entities;
-using Shared.Validations;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace Domain.Entities

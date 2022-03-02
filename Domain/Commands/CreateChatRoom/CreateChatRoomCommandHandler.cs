@@ -37,7 +37,7 @@ namespace Domain.Commands.CreateChatRoom
             }
 
             // Validate user
-            User user = await _userRepository.ReadAsync(command.UserId);
+            User? user = await _userRepository.ReadAsync(command.UserId!);
             if(user is null)
             {
                 Error error = new(code: ErrorCodes.ERROR_USER_NOT_FOUND, message: string.Format(CommandErrors.ERROR_USER_NOT_FOUND, command.UserId));
@@ -46,7 +46,7 @@ namespace Domain.Commands.CreateChatRoom
 
             // Create Entity
             ChatRoom chatRoom = new(
-                name: command.Name,
+                name: command.Name!,
                 users: new HashSet<User> { user }
                 );
 

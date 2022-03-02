@@ -62,7 +62,6 @@
 
 @section Scripts{
     @{
-        //var userId = ((ClaimsIdentity)User.Identity)?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         var userName = ((ClaimsIdentity)User.Identity)?.FindFirst(ClaimTypes.Name)?.Value ?? string.Empty;
     }
 
