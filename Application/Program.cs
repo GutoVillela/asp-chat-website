@@ -21,6 +21,7 @@ using DomainCore.Bot;
 using Bot;
 using Infrastructure.Helpers;
 using DomainCore.Helpers;
+using Application.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +51,13 @@ builder.Services.AddScoped<IQueryHandler<GetChatRoomsByUserQuery, GetChatRoomsBy
 builder.Services.AddScoped<IQueryHandler<GetMessagesByChatRoomQuery, GetMessagesByChatRoomQueryResult>, GetMessagesByChatRoomQueryHandler>();
 
 // MQ
-builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>(x => new ConnectionFactory() { HostName = "localhost" });// TODO Grab Hostname from AppSettings
+MQConfiguration mqConfiguration = new();
+mqConfiguration.HostName = builder.Configuration.GetSection(MQConfiguration.ConfigurationName).GetValue(typeof(string), nameof(mqConfiguration.HostName)).ToString();
+int.TryParse(builder.Configuration.GetSection(MQConfiguration.ConfigurationName).GetValue(typeof(string), nameof(mqConfiguration.Port)).ToString(), out int port);
+if(port > 0)
+    mqConfiguration.Port = port;
+
+builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>(x => new ConnectionFactory() { HostName = mqConfiguration.HostName, Port = mqConfiguration.Port });
 builder.Services.AddSingleton<IProducer, Producer>();
 builder.Services.AddSingleton<IConsumer, Consumer>();
 
