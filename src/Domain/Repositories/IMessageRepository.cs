@@ -5,7 +5,7 @@ namespace Domain.Repositories
 {
     public interface IMessageRepository : IRepository<Message>
     {
-        Task<IEnumerable<Message>> ReadAllByChatIncludingAuthorAsync(int chatId);
+        Task<IEnumerable<Message>> ReadAllByChatIncludingAuthorAsync(int chatId, int messagesToGet);
         
     }
 }

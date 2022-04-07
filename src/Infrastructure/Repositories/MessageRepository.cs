@@ -11,11 +11,13 @@ namespace Infrastructure.Repositories
     {
         public MessageRepository(ApplicationDbContext dbContext) : base(dbContext) { }
 
-        public async Task<IEnumerable<Message>> ReadAllByChatIncludingAuthorAsync(int chatRoomId)
+        public async Task<IEnumerable<Message>> ReadAllByChatIncludingAuthorAsync(int chatRoomId, int messagesToGet)
         {
             return await _dbSet.AsNoTracking()
                 .Include(MessageQueriable.IncludeAuthor())
                 .Where(MessageQueriable.GetByChatRoomId(chatRoomId))
+                .OrderBy(MessageQueriable.CreationDate())
+                .Take(messagesToGet)
                 .ToListAsync();
         }
     }

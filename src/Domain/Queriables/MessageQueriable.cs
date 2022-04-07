@@ -15,5 +15,10 @@ namespace Domain.Queriables
         {
             return x => x.ChatRoomId == chatRoomId;
         }
+
+        public static Expression<Func<Message, DateTime>> CreationDate()
+        {
+            return x => x.CreationDate;
+        }
     }
 }

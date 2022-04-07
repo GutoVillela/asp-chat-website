@@ -25,6 +25,8 @@ using Application.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddEnvironmentVariables();
+
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
@@ -71,6 +73,10 @@ builder.Services.AddSingleton<ICryptographyHelper, CryptographyHelper>();
 // Bot
 builder.Services.AddSingleton<IBot, StockCommandBot>();
 
+// Configuration
+ChatConfiguration chatConfiguration = new();
+chatConfiguration.MaxMessagesPerChat = Convert.ToInt32(builder.Configuration.GetSection(ChatConfiguration.ConfigurationName).GetValue(typeof(int), nameof(chatConfiguration.MaxMessagesPerChat)));
+builder.Services.AddSingleton<ChatConfiguration>(chatConfiguration);
 // Identity
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();

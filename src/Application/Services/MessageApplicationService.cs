@@ -30,10 +30,11 @@ namespace Application.Services
             return await _sendMessageHandler.HandleAsync(command);
         }
 
-        public async Task<IEnumerable<MessageViewModel>> GetAllMessagesByChatRoom(int chatRoomId)
+        public async Task<IEnumerable<MessageViewModel>> GetAllMessagesByChatRoom(int chatRoomId, int messagesToGet)
         {
             GetMessagesByChatRoomQuery query = new();
             query.ChatRoomId = chatRoomId;
+            query.MessagesToGet = messagesToGet;
             
             var result = await _getMessagesByChatRoomHandler.HandleAsync(query);
 

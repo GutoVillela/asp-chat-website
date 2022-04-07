@@ -20,8 +20,14 @@ namespace Application.Controllers
         private readonly IConsumer _consumer;
         private readonly ICryptographyHelper _cryptographyHelper;
         private readonly MessageHub _messageHub;
+        
 
-        public HomeController(IChatRoomApplicationService chatRoomService, IMessageApplicationService messageService, IConsumer consumer, ICryptographyHelper cryptographyHelper, MessageHub messageHub)
+        public HomeController(
+            IChatRoomApplicationService chatRoomService, 
+            IMessageApplicationService messageService, 
+            IConsumer consumer, 
+            ICryptographyHelper cryptographyHelper, 
+            MessageHub messageHub)
         {
             _chatRoomService = chatRoomService;
             _messageService = messageService;
@@ -72,8 +78,6 @@ namespace Application.Controllers
 
         private async Task<IEnumerable<ChatRoomViewModel>> LoadChatRooms()
         {
-            //var userId = GetAutheticatedUserId();
-            //var chatRooms = await _chatRoomService.GetAllByUserId(userId);
             var chatRooms = await _chatRoomService.GetAll();
             return chatRooms;
         }

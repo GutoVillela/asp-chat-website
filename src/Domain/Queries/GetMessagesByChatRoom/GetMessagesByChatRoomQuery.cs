@@ -5,5 +5,6 @@ namespace Domain.Queries.GetMessagesByChatRoom
     public class GetMessagesByChatRoomQuery : IQueryRequest
     {
         public int ChatRoomId { get; set; }
+        public int MessagesToGet { get; set; }
     }
 }

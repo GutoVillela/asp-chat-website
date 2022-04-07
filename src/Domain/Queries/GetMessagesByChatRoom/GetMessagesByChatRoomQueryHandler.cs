@@ -18,9 +18,9 @@ namespace Domain.Queries.GetMessagesByChatRoom
             _cryptographyHelper = cryptographyHelper;
         }
 
-        public async Task<GetMessagesByChatRoomQueryResult> HandleAsync(GetMessagesByChatRoomQuery command)
+        public async Task<GetMessagesByChatRoomQueryResult> HandleAsync(GetMessagesByChatRoomQuery query)
         {
-            var messages = await _messageRepository.ReadAllByChatIncludingAuthorAsync(command.ChatRoomId);
+            var messages = await _messageRepository.ReadAllByChatIncludingAuthorAsync(query.ChatRoomId, query.MessagesToGet);
 
             IList<MessageDTO> messagesDTOs = new List<MessageDTO>();
 

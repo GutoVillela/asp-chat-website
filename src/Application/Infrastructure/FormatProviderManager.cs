@@ -1,9 +1,7 @@
-﻿using System.Globalization;
-
-namespace Application.Infrastructure
+﻿namespace Application.Infrastructure
 {
     public static class FormatProviderManager
     {
-        public static readonly string DateTimeFormat = "dd/MM/yyyy";
+        public static readonly string DateTimeFormat = "dd/MM/yyyy HH:mm:ss";
     }
 }
