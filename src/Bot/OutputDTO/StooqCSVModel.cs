@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using CsvHelper;
+using System.Globalization;
 
 namespace Bot.OutputDTO
 {
@@ -18,29 +19,11 @@ namespace Bot.OutputDTO
             if (string.IsNullOrEmpty(csvString))
                 return new();
 
-            string[] csvRows = csvString.Split("\n");
-            if(!csvRows.Any() || csvRows.Length < 2)
-                return new();
+            using var reader = new StringReader(csvString);
+            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
 
-            string[] values = csvRows[1].Split(",");
-            if (!values.Any())
-                return new();
-
-            
-            StooqCSVModel result = new();
-            result.Symbol = values[0];
-            result.Date = values[1];
-            result.Time = values[2];
-            result.Open = values[3];
-            decimal.TryParse(values[4], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal high);
-            decimal.TryParse(values[5], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal low);
-            decimal.TryParse(values[6], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal close);
-            result.High = high;
-            result.Low = low;
-            result.Close = close;
-            result.Volume = values[7];
-
-            return result;
+            var records = csv.GetRecords<StooqCSVModel>();
+            return records.FirstOrDefault();
         }
     }
 }
